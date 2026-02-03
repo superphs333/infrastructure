@@ -11,6 +11,4 @@ docker network create proxy-nw
 docker compose up -d
 docker network ls | grep proxy-nw
 ```
-
-
-
+그 후 services폴더로 들어가서 각각 프로젝트를 git으로 다운받는다.
