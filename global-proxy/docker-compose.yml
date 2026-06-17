@@ -2,7 +2,7 @@ services:
   # 서비스 이름 정의 (Nginx Proxy Manager의 약자인 npm 사용함)
   npm:
     # 사용할 도커 이미지: 최신 안정화 버전 사용함
-    image: jc21/nginx-proxy-manager:latest
+    image: jc21/nginx-proxy-manager:2.15.1
     
     # 컨테이너의 고유 이름: 터미널에서 식별하기 쉽게 지정함
     container_name: global-proxy-npm
@@ -14,7 +14,7 @@ services:
     ports:
       - "80:80"   # 일반적인 웹 접속(HTTP) 통로임
       - "443:443" # 보안 인증서가 적용된 웹 접속(HTTPS) 통로임
-      - "81:81"   # 프록시 서버를 관리하는 웹 UI(대시보드) 접속 포트임
+      - "127.0.0.1:81:81"   # 프록시 서버를 관리하는 웹 UI(대시보드) 접속 포트임
     
     # 데이터 보존을 위한 볼륨 설정 (호스트경로:컨테이너경로)
     volumes:
