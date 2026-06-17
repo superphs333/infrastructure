@@ -1,1 +1,6 @@
 /services/
+/.playwright-mcp/
+
+# Nginx Proxy Manager runtime data
+/global-proxy/data/
+/global-proxy/letsencrypt/
