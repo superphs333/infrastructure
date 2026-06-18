@@ -20,7 +20,7 @@ jobs:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         env:
-          # 서버 내 저장소 기본 경로 -- GitHub Variables의 DEPLOY_BASE_DIR로 변경 가능
+          # 서버 내 저장소 기본 경로 -- GitHub Variables의 DEPLOY_BASE_DIR로 변경 가능.
           DEPLOY_BASE_DIR: ${{ vars.DEPLOY_BASE_DIR || '~/infrastructure' }}
           # docker-compose.yml 위치 -- 수동 입력값이 Variables보다 우선
           SERVICE_PATH: ${{ github.event.inputs.service_path || vars.DEPLOY_SERVICE_PATH || 'global-proxy' }}
