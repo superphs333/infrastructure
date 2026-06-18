@@ -4,3 +4,9 @@
 # Nginx Proxy Manager runtime data
 /global-proxy/data/
 /global-proxy/letsencrypt/
+
+# Nginx Proxy Manager runtime data
+global-proxy/data/
+
+# Local runtime backups
+global-proxy/data.backup.*/
