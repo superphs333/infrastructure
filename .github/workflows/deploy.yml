@@ -1,0 +1,47 @@
+name: Deploy Docker Compose
+
+on:
+  # main 브랜치 push 시 자동 배포
+  push:
+    branches: ["main"]
+  # GitHub Actions 화면에서 원하는 서비스 수동 배포
+  workflow_dispatch:
+    inputs:
+      service_path:
+        description: "Path under the deploy base directory, for example global-proxy or services/tipmarket"
+        required: false
+        default: "global-proxy"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        env:
+          # 서버 내 저장소 기본 경로 -- GitHub Variables의 DEPLOY_BASE_DIR로 변경 가능
+          DEPLOY_BASE_DIR: ${{ vars.DEPLOY_BASE_DIR || '~/infrastructure' }}
+          # docker-compose.yml 위치 -- 수동 입력값이 Variables보다 우선
+          SERVICE_PATH: ${{ github.event.inputs.service_path || vars.DEPLOY_SERVICE_PATH || 'global-proxy' }}
+        with:
+          # 서버 접속 정보 -- GitHub Secrets에 등록 필요
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USERNAME }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          port: ${{ secrets.DEPLOY_PORT || 22 }}
+          envs: DEPLOY_BASE_DIR,SERVICE_PATH
+          script: |
+            set -e
+
+            # ~ 기본값을 실제 홈 디렉터리 경로로 변환
+            DEPLOY_BASE_DIR="${DEPLOY_BASE_DIR/#\~/$HOME}"
+
+            # 서버 저장소를 최신 main 상태로 동기화
+            cd "$DEPLOY_BASE_DIR"
+            git pull --ff-only origin main
+
+            # 선택한 서비스의 docker-compose.yml 검증 후 재기동
+            cd "$SERVICE_PATH"
+            docker compose config
+            docker compose up -d --build
