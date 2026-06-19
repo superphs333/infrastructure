@@ -74,10 +74,12 @@ cd global-proxy
 docker compose version
 docker --version
 docker compose pull
-docker network create proxy-nw
+docker network inspect proxy-nw >/dev/null 2>&1 || docker network create proxy-nw
 docker compose up -d
 docker network ls | grep proxy-nw
 ```
+
+`proxy-nw`는 `global-proxy`와 각 서비스 컨테이너가 함께 사용하는 공용 Docker 네트워크이다. `global-proxy/docker-compose.yml`에서 `external: true`로 참조하므로, 네트워크가 없으면 `docker compose up -d`가 실패한다. 위 명령은 이미 `proxy-nw`가 있으면 그대로 사용하고, 없을 때만 새로 만든다.
 
 ## global-proxy 관리 UI 접속
 
