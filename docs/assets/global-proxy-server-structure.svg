@@ -1,0 +1,88 @@
+<svg width="1040" height="720" viewBox="0 0 1040 720" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">global-proxy server structure</title>
+  <desc id="desc">External HTTP and HTTPS traffic enters global-proxy-npm, then routes through proxy-nw to each service web container and service-local internal networks.</desc>
+  <style>
+    .bg { fill: #f7f8fb; }
+    .panel { fill: #ffffff; stroke: #c8d0dc; stroke-width: 2; }
+    .box { fill: #ffffff; stroke: #455469; stroke-width: 2; }
+    .proxy { fill: #e7f1ff; stroke: #1f5f9f; stroke-width: 2.5; }
+    .network { fill: #eef8f2; stroke: #28724a; stroke-width: 2.5; }
+    .service { fill: #fff7e8; stroke: #9b651f; stroke-width: 2; }
+    .internal { fill: #f4eefb; stroke: #6f4a9b; stroke-width: 2; }
+    .storage { fill: #f2f5f8; stroke: #687589; stroke-width: 2; }
+    .title { font: 700 28px Arial, sans-serif; fill: #1d2733; }
+    .label { font: 700 18px Arial, sans-serif; fill: #1d2733; }
+    .text { font: 15px Arial, sans-serif; fill: #2d3745; }
+    .small { font: 13px Arial, sans-serif; fill: #536173; }
+    .line { stroke: #3f4d5f; stroke-width: 2.5; }
+    .dash { stroke: #69778a; stroke-width: 2; stroke-dasharray: 7 7; }
+  </style>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2 2 L10 6 L2 10 Z" fill="#3f4d5f"/>
+    </marker>
+    <marker id="arrow-soft" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2 2 L10 6 L2 10 Z" fill="#69778a"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1040" height="720"/>
+  <text class="title" x="52" y="54">global-proxy 서버 구조</text>
+  <text class="text" x="52" y="84">Nginx Proxy Manager가 공개 HTTP/HTTPS 진입점을 맡고, 공용 Docker 네트워크를 통해 서비스별 웹 컨테이너로 전달한다.</text>
+
+  <rect class="panel" x="40" y="118" width="960" height="540" rx="10"/>
+  <text class="label" x="70" y="154">Host Server</text>
+
+  <rect class="box" x="78" y="196" width="210" height="88" rx="8"/>
+  <text class="label" x="118" y="230">사용자 / 브라우저</text>
+  <text class="small" x="116" y="255">HTTP :80, HTTPS :443</text>
+
+  <rect class="proxy" x="398" y="178" width="244" height="124" rx="8"/>
+  <text class="label" x="434" y="216">global-proxy-npm</text>
+  <text class="text" x="433" y="244">Nginx Proxy Manager</text>
+  <text class="small" x="443" y="270">jc21/nginx-proxy-manager:2.15.1</text>
+
+  <line class="line" x1="288" y1="240" x2="394" y2="240" marker-end="url(#arrow)"/>
+  <text class="small" x="312" y="223">80 / 443</text>
+
+  <rect class="box" x="740" y="178" width="206" height="124" rx="8"/>
+  <text class="label" x="779" y="216">관리 UI</text>
+  <text class="text" x="766" y="244">127.0.0.1:81</text>
+  <text class="small" x="761" y="270">SSH 터널로 접근</text>
+  <line class="dash" x1="740" y1="240" x2="646" y2="240" marker-end="url(#arrow-soft)"/>
+
+  <rect class="network" x="274" y="368" width="492" height="70" rx="8"/>
+  <text class="label" x="468" y="399">proxy-nw</text>
+  <text class="small" x="407" y="422">external Docker network</text>
+  <line class="line" x1="520" y1="303" x2="520" y2="364" marker-end="url(#arrow)"/>
+
+  <rect class="service" x="92" y="500" width="220" height="72" rx="8"/>
+  <text class="label" x="135" y="532">tipmarket-web</text>
+  <text class="small" x="160" y="555">nginx / web entry</text>
+
+  <rect class="service" x="410" y="500" width="220" height="72" rx="8"/>
+  <text class="label" x="450" y="532">tiptipworld-web</text>
+  <text class="small" x="478" y="555">nginx / web entry</text>
+
+  <rect class="service" x="728" y="500" width="220" height="72" rx="8"/>
+  <text class="label" x="779" y="532">devlog-app</text>
+  <text class="small" x="779" y="555">service app entry</text>
+
+  <line class="line" x1="410" y1="438" x2="202" y2="496" marker-end="url(#arrow)"/>
+  <line class="line" x1="520" y1="438" x2="520" y2="496" marker-end="url(#arrow)"/>
+  <line class="line" x1="630" y1="438" x2="838" y2="496" marker-end="url(#arrow)"/>
+
+  <rect class="internal" x="92" y="604" width="220" height="44" rx="8"/>
+  <text class="small" x="129" y="631">PHP / DB / Redis</text>
+  <rect class="internal" x="410" y="604" width="220" height="44" rx="8"/>
+  <text class="small" x="447" y="631">PHP / DB / Redis</text>
+  <rect class="internal" x="728" y="604" width="220" height="44" rx="8"/>
+  <text class="small" x="786" y="631">App / DB</text>
+
+  <line class="dash" x1="202" y1="572" x2="202" y2="600" marker-end="url(#arrow-soft)"/>
+  <line class="dash" x1="520" y1="572" x2="520" y2="600" marker-end="url(#arrow-soft)"/>
+  <line class="dash" x1="838" y1="572" x2="838" y2="600" marker-end="url(#arrow-soft)"/>
+
+  <rect class="storage" x="398" y="318" width="244" height="30" rx="6"/>
+  <text class="small" x="426" y="338">./data, ./letsencrypt 에 설정/인증서 보존</text>
+</svg>
