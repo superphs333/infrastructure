@@ -1,4 +1,6 @@
-/services/
+/services/*
+!/services/ai-news-agent/
+!/services/ai-news-agent/**
 /.playwright-mcp/
 
 # Nginx Proxy Manager runtime data
